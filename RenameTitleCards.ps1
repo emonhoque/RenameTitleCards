@@ -1,12 +1,9 @@
-# Get the folder where the script is located
 $basePath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $logPath = Join-Path $basePath "rename_log.txt"
 $whatIfMode = $false  # Set to $true for dry run
 
-# Start fresh log
-"Rename Log - $(Get-Date)" | Out-File -FilePath $logPath
+"Rename Log - $(Get-Date)" | Out-File -FilePath $logPath -Encoding utf8
 
-# Convert "S3 E2" or "S03E02" → "S03E02"
 function ExtractNormalizedCode($name) {
     if ($name -match "(?i)s\s*(\d{1,2})\s*e\s*(\d{1,2})" -or $name -match "(?i)s(\d{1,2})e(\d{1,2})") {
         $season = "{0:D2}" -f [int]$matches[1]
@@ -16,7 +13,6 @@ function ExtractNormalizedCode($name) {
     return $null
 }
 
-# Loop through all .jpg images
 Get-ChildItem -Path $basePath -Recurse -File | Where-Object {
     $_.Extension -match "\.jpe?g$|\.png$|\.webp$"
 } | ForEach-Object {
@@ -29,10 +25,10 @@ Get-ChildItem -Path $basePath -Recurse -File | Where-Object {
 
 	$code = ExtractNormalizedCode $image.BaseName
 
-    Add-Content $logPath "`nImage: $($image.FullName)"
+    Add-Content -Path $logPath -Value "`nImage: $($image.FullName)" -Encoding utf8
 
     if (-not $code) {
-        Add-Content $logPath "Could not extract episode code"
+        Add-Content -Path $logPath -Value "Could not extract episode code" -Encoding utf8
         return
     }
 
@@ -43,7 +39,7 @@ Get-ChildItem -Path $basePath -Recurse -File | Where-Object {
     }
     
     if ($videos.Count -eq 0) {
-        Add-Content $logPath "No video match found"
+        Add-Content -Path $logPath -Value "No video match found" -Encoding utf8
         return
     }
 
@@ -52,13 +48,13 @@ Get-ChildItem -Path $basePath -Recurse -File | Where-Object {
     $newImagePath = Join-Path $seasonFolder $newImageName
 
     if (Test-Path $newImagePath) {
-        Add-Content $logPath "Skipped: $newImageName already exists"
+        Add-Content -Path $logPath -Value "Skipped: $newImageName already exists" -Encoding utf8
     } else {
         if ($whatIfMode) {
-            Add-Content $logPath "Would rename: $($image.Name) -> $newImageName"
+            Add-Content -Path $logPath -Value "Would rename: $($image.Name) -> $newImageName" -Encoding utf8
         } else {
             Rename-Item -Path $image.FullName -NewName $newImageName
-            Add-Content $logPath "Renamed: $($image.Name) -> $newImageName"
+            Add-Content -Path $logPath -Value "Renamed: $($image.Name) -> $newImageName" -Encoding utf8
         }
     }
 }
