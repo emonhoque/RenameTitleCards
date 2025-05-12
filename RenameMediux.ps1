@@ -39,9 +39,9 @@ Get-ChildItem -Path $basePath -Recurse -File | Where-Object {
     $seasonFolder = Split-Path $image.FullName -Parent
 
     $videos = Get-ChildItem -Path $seasonFolder -File | Where-Object {
-        $_.Extension -in @(".mkv", ".mp4", ".avi") -and $_.BaseName -match $code
+        $_.Extension -in @(".mkv", ".mp4", ".avi", ".m4v", ".mov") -and $_.BaseName -match $code
     }
-
+    
     if ($videos.Count -eq 0) {
         Add-Content $logPath "No video match found"
         return
