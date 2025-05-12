@@ -1,4 +1,4 @@
-# Mediux Image Renamer
+# Title Card Image Renamer
 
 This project provides two versions of the same utility, one written in **Python**, the other in **PowerShell**, to automatically rename TV episode image files to match their corresponding video filenames using the standardized format:
 
