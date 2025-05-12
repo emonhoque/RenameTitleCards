@@ -48,7 +48,7 @@ Get-ChildItem -Path $basePath -Recurse -File | Where-Object {
     }
 
     $bestMatch = $videos | Sort-Object { $_.BaseName.Length } | Select-Object -First 1
-    $newImageName = "$($bestMatch.BaseName).jpg"
+    $newImageName = "$($bestMatch.BaseName)$($image.Extension.ToLower())"
     $newImagePath = Join-Path $seasonFolder $newImageName
 
     if (Test-Path $newImagePath) {
