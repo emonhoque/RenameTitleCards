@@ -1,6 +1,6 @@
 # Mediux Image Renamer
 
-This project provides two versions of the same utility — one written in **Python**, the other in **PowerShell** — to automatically rename TV episode image files to match their corresponding video filenames using the standardized format:
+This project provides two versions of the same utility, one written in **Python**, the other in **PowerShell**, to automatically rename TV episode image files to match their corresponding video filenames using the standardized format:
 
 ```
 Show Name - SXXEXX - Title.jpg
@@ -37,7 +37,26 @@ what_if_mode = True
 ```powershell
 $whatIfMode = $true
 ```
-- Log output in `rename_log.txt` 
+- Log output in `rename_log.txt`
+
+---
+
+## Folder Structure Requirement
+
+**Important**: Place the script inside the **base directory of the TV show**, not inside a season folder. The script will automatically scan all subfolders.
+
+### Example:
+
+```
+TV Shows/
+└── Show Name (Year)/
+    ├── Season 1/
+    │   ├── Show Name (Year) - S01E01 - Pilot.mkv
+    │   ├── S1 E1.png
+    └── RenameMediux.py or RenameMediux.ps1  ← place script here
+```
+
+Running the script from the base folder ensures it can correctly match and rename all images within season subdirectories.
 
 ---
 
