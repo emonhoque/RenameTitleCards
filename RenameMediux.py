@@ -55,7 +55,7 @@ for root, dirs, files in os.walk("."):
             log("No video match found")
             continue
 
-        new_name = best_video.stem + ".jpg"
+        new_name = best_video.stem + image_path.suffix.lower()
         new_path = season_folder / new_name
 
         if new_path.exists():
